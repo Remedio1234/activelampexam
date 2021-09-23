@@ -1,7 +1,7 @@
-runtime: php73
+runtime: php74
 
 env_variables:
-  APP_ENV: dev
+  APP_ENV: prod
   APP_SECRET: 2a618675a6dee104e93f5cfff0ca8e3b
 
 handlers:
