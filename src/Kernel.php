@@ -10,29 +10,21 @@ use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
-
-    protected function configureContainer(ContainerConfigurator $container): void
+    
+    public function getCacheDir()
     {
-        $container->import('../config/{packages}/*.yaml');
-        $container->import('../config/{packages}/'.$this->environment.'/*.yaml');
-
-        if (is_file(\dirname(__DIR__).'/config/services.yaml')) {
-            $container->import('../config/services.yaml');
-            $container->import('../config/{services}_'.$this->environment.'.yaml');
-        } else {
-            $container->import('../config/{services}.php');
+        if ($this->environment === 'prod') {
+            return sys_get_temp_dir();
         }
+        return parent::getCacheDir();
     }
 
-    protected function configureRoutes(RoutingConfigurator $routes): void
+    public function getLogDir()
     {
-        $routes->import('../config/{routes}/'.$this->environment.'/*.yaml');
-        $routes->import('../config/{routes}/*.yaml');
-
-        if (is_file(\dirname(__DIR__).'/config/routes.yaml')) {
-            $routes->import('../config/routes.yaml');
-        } else {
-            $routes->import('../config/{routes}.php');
+        if ($this->environment === 'prod') {
+            return sys_get_temp_dir();
         }
+        return parent::getLogDir();
     }
 }
+
