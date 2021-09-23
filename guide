@@ -15,3 +15,5 @@ composer require encore
 npm install
 npm run watch
 https://symfonycasts.com/tracks/symfony
+
+composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction
