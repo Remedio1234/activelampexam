@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block title %} This is a show page {% endblock %}
+{% block body %}
+{# {{ number }} #}
+Anwers : {{answers | length}}
+<ul>
+   
+        {% for index, answer in answers %}
+         <li> {{ answer.name }} - {{ index }}</li>
+        {% endfor %}
+    
+ </ul>
+ <p id="sample"></p>
+ <img src="{{asset('images/hack.jpg')}}">
+ <a href="{{ path('sample_url', {slug: 'moom-111'}) }}">next</a>
+ {% endblock %}
+ {% block javascripts %}
+    {{ parent() }}
+    {#<script src="{{ asset('js/script.js') }}"></script>#}
+{% endblock %}

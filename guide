@@ -1,0 +1,17 @@
+symfony new project_name
+symfony -S 127.0.0.1:8000 -t public/
+symfony server:start
+symfony server -d
+
+symfony composer req maker --dev
+symfony console list make
+symfony composer req annotations
+symfony check:security
+composer require twig
+symfony console make:controller ConferenceController
+composer require symfony/asset
+composer require --dev symfony/profiler-pack
+composer require encore
+npm install
+npm run watch
+https://symfonycasts.com/tracks/symfony
