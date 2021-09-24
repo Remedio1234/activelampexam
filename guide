@@ -9,6 +9,10 @@ symfony composer req annotations
 symfony check:security
 composer require twig
 symfony console make:controller ConferenceController
+php bin/console make:controller BrandNewController
+php bin/console make:entity
+
+
 composer require symfony/asset
 composer require --dev symfony/profiler-pack
 composer require encore
@@ -18,3 +22,18 @@ https://symfonycasts.com/tracks/symfony
 
 composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction
 composer install --no-dev
+
+activelamp
+pf6FjmfdbjGKf1pf
+
+php bin/console make:entity --regenerate App\\Entity\\Country
+
+php bin/console cache:clear --env=dev
+
+https://developer.okta.com/blog/2018/06/14/php-crud-app-symfony-vue
+
+url,
+hash,
+domain,
+tiny_url
+created_at
