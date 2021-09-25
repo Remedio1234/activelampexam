@@ -5,23 +5,21 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Api\ApiExam;
 use App\Entity\Shortend;
 use App\Repository\ShortendRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class ExamController extends AbstractController
 {
     /**
-    * @Route("/show", methods="GET")
-    */
-    public function show(ShortendRepository $sr)
+     * @Route("/", name="exam")
+     */
+    public function index(): Response
     {
-        $se = $sr->transformAll();
-        $api = new ApiExam();
-        return $api->respond($se);
+        // return homepage
+        return $this->render('exam/show.html.twig', []);
     }
 
     /**
@@ -29,19 +27,25 @@ class ExamController extends AbstractController
     */
     public function create(Request $request, ShortendRepository $sr, EntityManagerInterface $em)
     {
-       
         $api = new ApiExam();
 
         if (! $request)
             return $api->respondValidationError('Please provide a valid request!');
-        
 
-        // validate the title
+        //check url exist
+        // if($sr->findOneBy(['url' => $request->get('url')]))
+        //     return $api->respondValidationError('URL Already Exist');
+
+        if (!(strpos($request->get('url'), 'http') !== false) && !(strpos($request->get('url'), 'https') !== false)) 
+            return $api->respondValidationError('URL must contain http or https');
+        
+        // validate the URL
         if (! $request->get('url'))
             return $api->respondValidationError('Please provide a url!');
         
         $hash_code  = $api->generateRandomString(6);
-        $protocol   = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";  
+        $protocol   = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || 
+                        $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";  
         $set_url    = $protocol.$_SERVER['HTTP_HOST'];
 
         // persist the new Shortend
@@ -57,38 +61,26 @@ class ExamController extends AbstractController
     }
 
     /**
-     * @Route("/", name="exam")
-     */
-    public function index(): Response
-    {
-        // return $this->json([
-        //     'message' => 'Welcome to your new controller!',
-        //     'path' => 'src/Controller/ExamController.php',
-        // ]);
-        // dump($this);
+    * @Route("/{hash}", methods="GET")
+    */
+    public function getRow($hash, ShortendRepository $sr)
+    {   
+        $api = new ApiExam();
+        $hash_url = $sr->findOneBy(['hash' => $hash]);
 
-        // $api = new ApiExam();
-        // $hello = $api->hello();
-        $number = random_int(0, 100);
+        if (! $hash_url)
+            return $api->respondNotFound();
 
-        return $this->render('exam/show.html.twig', [
-            'number' => $number,
-            'answers' => [
-                [
-                    'name' => 'je'
-                ],
-                [
-                    'name' => 'aber'
-                ]
-            ]
-        ]);
+        return $this->redirect($hash_url->getUrl(), 301);
     }
+
     /**
-     * @Route("/sample/{slug}", name="sample_url")
-     */
-    public function test($slug)
+    * @Route("/show", methods="GET")
+    */
+    public function show(ShortendRepository $sr)
     {
-    
-        return new Response("HAHHAHAHAH".$slug);
+        $se = $sr->transformAll();
+        $api = new ApiExam();
+        return $api->respond($se);
     }
 }

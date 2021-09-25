@@ -41,3 +41,6 @@
     overflow-y: scroll;
     height: 300px;
 }
+.wd-br {
+    word-break: break-all !important;
+}

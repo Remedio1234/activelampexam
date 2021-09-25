@@ -3,6 +3,8 @@ runtime: php74
 env_variables:
   APP_ENV: prod
   APP_SECRET: 2a618675a6dee104e93f5cfff0ca8e3b
+  # Add the DATABASE_URL environment variable
+  DATABASE_URL: mysql://root:pf6FjmfdbjGKf1pf@localhost?unix_socket=/cloudsql/examactivelamp:us-central1:activelamp;dbname=activelamp
 
 handlers:
   # Declare the build and bundles directory as static assets to be served by the
