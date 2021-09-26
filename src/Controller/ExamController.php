@@ -28,19 +28,19 @@ class ExamController extends AbstractController
     public function create(Request $request, ShortendRepository $sr, EntityManagerInterface $em)
     {
         $api = new ApiExam();
-
-        if (! $request)
+        $payload = json_decode($request->getContent(), true);
+        if (! $payload)
             return $api->respondValidationError('Please provide a valid request!');
 
         //check url exist
-        // if($sr->findOneBy(['url' => $request->get('url')]))
+        // if($sr->findOneBy(['url' => $payload['url']]))
         //     return $api->respondValidationError('URL Already Exist');
 
-        if (!(strpos($request->get('url'), 'http') !== false) && !(strpos($request->get('url'), 'https') !== false)) 
+        if (!(strpos($payload['url'], 'http') !== false) && !(strpos($payload['url'], 'https') !== false)) 
             return $api->respondValidationError('URL must contain http or https');
         
         // validate the URL
-        if (! $request->get('url'))
+        if (! $payload['url'])
             return $api->respondValidationError('Please provide a url!');
         
         $hash_code  = $api->generateRandomString(6);
@@ -50,7 +50,7 @@ class ExamController extends AbstractController
 
         // persist the new Shortend
         $se = new Shortend;
-        $se->setUrl($request->get('url'));
+        $se->setUrl($payload['url']);
         $se->setHash($hash_code);
         $se->setTinyurl($set_url.'/'.$hash_code);
         $se->setCreatedAt(date('Y-m-d H:i:d'));

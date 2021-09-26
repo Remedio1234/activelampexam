@@ -11,3 +11,13 @@ import './styles/global.scss';
 
 // start the Stimulus application
 import './bootstrap';
+
+//Vue js
+import Vue from 'vue';
+import store        from './js/store'
+import App from './js/components/App';
+new Vue({
+    el: '#app',
+    store,
+    render: h => h(App)
+});

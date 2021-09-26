@@ -31,16 +31,17 @@
 .custom-input {
     padding:20px !important;
 }
-#result, #history, #error_wrapper {
-    display: none;
-}
 .url-error {
     border:1px solid red !important;
 }
-#details_history {
+.details_history {
     overflow-y: scroll;
     height: 300px;
 }
 .wd-br {
     word-break: break-all !important;
 }
+
+/* #result, #history, #error_wrapper {
+    display: none;
+} */
