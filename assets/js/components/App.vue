@@ -61,7 +61,7 @@ export default {
             this.load_history = 'history'
     },
     methods: {
-         copyToClipboard: function(el) {
+        copyToClipboard: function(el) {
             let $temp = $("<input>");
                 $("body").append($temp);
                 $temp.val($(el).text()).select();

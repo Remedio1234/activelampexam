@@ -58,8 +58,7 @@
         },
         created(){
             if (sessionStorage.getItem("shortEndAPI") != null) 
-                if (sessionStorage.getItem("shortEndAPI") != null) 
-                    this.shortend = eval(sessionStorage.getItem("shortEndAPI"))
+                this.shortend = eval(sessionStorage.getItem("shortEndAPI"))
         },
         methods:{
             ...mapActions({
